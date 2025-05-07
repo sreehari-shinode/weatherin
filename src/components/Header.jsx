@@ -1,16 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import logo from '../assets/logo.png';
+import { FaSearch } from 'react-icons/fa';
 
 const Header = ({ setCoords, fetchWeather, fetchLocationName, setLocationInfo }) => {
+  const [showSearch, setShowSearch] = useState(false);
+
   return (
-    <div className="bg-[#131c2f] rounded-b-2xl mb-6 pr-4 pl-2 py-2 flex items-center justify-between"
-    >
-      <div className="flex items-center gap-3">
-        <img src={logo} alt="Weatherin logo" className="h-14 w-14 object-contain" />
-        <h1 className="text-white text-3xl font-bold drop-shadow">Weatherin</h1>
+    <div className="bg-[#131c2f] rounded-b-2xl mb-6 px-4 py-2 flex items-center justify-between">
+      {/* Left section: logo + title or search bar */}
+      <div className="flex items-center gap-3 flex-grow">
+        <img src={logo} alt="Weatherin logo" className="h-10 w-10 object-contain" />
+
+        {/* Title hidden on mobile when search is active */}
+        <h1
+          className={`text-white text-2xl font-bold drop-shadow transition-all duration-300 ${
+            showSearch ? 'hidden' : 'block'
+          } md:block`}
+        >
+          Weatherin
+        </h1>
+
+        {/* Mobile search bar shown next to logo */}
+        <div className="flex-grow ml-2 md:hidden">
+          {showSearch && (
+            <SearchBar
+              setCoords={setCoords}
+              fetchWeather={fetchWeather}
+              fetchLocationName={fetchLocationName}
+              setLocationInfo={setLocationInfo}
+              autoFocus={true}
+              onBlur={() => setShowSearch(false)}
+              compact={true} // custom prop to reduce width/margin
+            />
+          )}
+        </div>
       </div>
-      <div className="relative z-50">
+
+      {/* Right: Search icon for mobile */}
+      <div className="md:hidden">
+        {!showSearch && (
+          <button onClick={() => setShowSearch(true)}>
+            <FaSearch className="text-white text-xl" />
+          </button>
+        )}
+      </div>
+
+      {/* Desktop search bar */}
+      <div className="hidden md:block w-full max-w-md">
         <SearchBar
           setCoords={setCoords}
           fetchWeather={fetchWeather}
