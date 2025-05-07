@@ -7,21 +7,12 @@ const Header = ({ setCoords, fetchWeather, fetchLocationName, setLocationInfo })
   const [showSearch, setShowSearch] = useState(false);
 
   return (
-    <div className="bg-[#131c2f] rounded-b-2xl mb-6 px-4 py-2 flex items-center justify-between">
-      {/* Left section: logo + title or search bar */}
+    <div className="bg-[#131c2f] rounded-b-2xl mb-3 md:mb-6 px-4 py-2 flex items-center justify-between">
       <div className="flex items-center gap-3 flex-grow">
         <img src={logo} alt="Weatherin logo" className="h-10 w-10 object-contain" />
-
-        {/* Title hidden on mobile when search is active */}
-        <h1
-          className={`text-white text-2xl font-bold drop-shadow transition-all duration-300 ${
-            showSearch ? 'hidden' : 'block'
-          } md:block`}
-        >
-          Weatherin
-        </h1>
-
-        {/* Mobile search bar shown next to logo */}
+        <h1 className={`text-white text-2xl font-bold drop-shadow transition-all duration-300 ${
+            showSearch ? 'hidden' : 'block'} md:block`}
+        >Weatherin</h1>
         <div className="flex-grow ml-2 md:hidden">
           {showSearch && (
             <SearchBar
@@ -31,13 +22,12 @@ const Header = ({ setCoords, fetchWeather, fetchLocationName, setLocationInfo })
               setLocationInfo={setLocationInfo}
               autoFocus={true}
               onBlur={() => setShowSearch(false)}
-              compact={true} // custom prop to reduce width/margin
+              compact={true} 
             />
           )}
         </div>
       </div>
 
-      {/* Right: Search icon for mobile */}
       <div className="md:hidden">
         {!showSearch && (
           <button onClick={() => setShowSearch(true)}>
@@ -46,7 +36,6 @@ const Header = ({ setCoords, fetchWeather, fetchLocationName, setLocationInfo })
         )}
       </div>
 
-      {/* Desktop search bar */}
       <div className="hidden md:block w-full max-w-md">
         <SearchBar
           setCoords={setCoords}

@@ -56,7 +56,6 @@ const formatTime = (dateStr) => {
   return date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
 };
 
-// Get next sunrise/sunset after the current time
 const getNextSunTimes = (sunriseTimes, sunsetTimes, currentTimeStr) => {
   const currentTime = new Date(currentTimeStr);
 
@@ -113,7 +112,6 @@ const HeroSection = ({ current, locationInfo, pastData, weather }) => {
       code: codes[Math.floor(codes.length / 2)],
     }));
 
-  // Get correct upcoming sunrise/sunset based on current time
   const { nextSunrise, nextSunset } = getNextSunTimes(
     weather?.daily?.sunrise || [],
     weather?.daily?.sunset || [],
@@ -128,21 +126,37 @@ const HeroSection = ({ current, locationInfo, pastData, weather }) => {
   
 
   return (
-    <div className="mt-2 mr-4 rounded-2xl grid grid-cols-1 md:grid-cols-3 gap-6 text-white relative z-10 ">
-      <div className="flex items-center justify-center w-full h-full overflow-hidden rounded-r-[50px]">
-        <Lottie
-          animationData={animationData}
-          loop
-          autoplay
-          className="w-full h-full object-contain"
-        />
+    <div className="mt-1 md:mt-2 mr-0 md:mr-4 rounded-2xl grid grid-cols-1 md:grid-cols-3 gap-6 text-white relative z-10 ">
+      <div className="w-full h-full">
+        <div className="hidden md:flex items-center justify-center w-full h-full overflow-hidden rounded-r-[50px]">
+          <Lottie
+            animationData={animationData}
+            loop
+            autoplay
+            className="w-full h-full object-contain"
+          />
+        </div>
+
+        <div className="block md:hidden w-full relative w-full h-[160px] overflow-hidden shrink-0">
+          <div className="-mt-[50px]">
+            <Lottie
+              animationData={animationData}
+              loop
+              autoplay
+              style={{
+                transform: 'scale(1.2)', 
+                objectFit: 'none',
+              }}
+            />
+          </div>
+        </div>
       </div>
 
-<div className="flex flex-col justify-between w-full h-full">
-        <div className="flex p-4">
-          <p className="text-xl flex items-center text-justify justify-center font-semibold">"{quote}"</p>
-        </div>
-        <div className="flex flex-col items-center justify-center text-center ">
+      <div className="flex flex-col justify-between w-full h-full">
+      <div className="px-4 py-2 text-center">
+        <p className="text-xl font-semibold">"{quote}"</p>
+      </div>
+        <div className="flex flex-col items-center justify-center text-center mt-6 md:mt-0">
         {locationInfo && (
           <>
             {locationInfo.city ? (
@@ -154,14 +168,12 @@ const HeroSection = ({ current, locationInfo, pastData, weather }) => {
                   <p className="text-[40px] leading-none">{city}</p>
                 ) : (
                   <>
-                    {/* <p className="text-sm text-white/80">{cleanedDistrict}</p> */}
                     <p className="text-[40px] leading-none">{city}</p>
                   </>
                 );
               })()
             ) : (
               <>
-                {/* <span className="text-sm text-white/80">{locationInfo.country}</span> */}
                 <h2 className="text-[40px] leading-none">{(locationInfo.district || '').replace(/district/i, '').trim()}</h2>
               </>
             )}
@@ -174,60 +186,61 @@ const HeroSection = ({ current, locationInfo, pastData, weather }) => {
 
         </div>
         {nextSunrise && nextSunset && (
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full items-end">
-            <div className="flex items-center bg-white bg-opacity-10 backdrop-blur-md pr-2 rounded-2xl  shadow">
-              <div className="w-[80px] h-[80px] overflow-hidden rounded-2xl">
-                <Lottie animationData={sunrise} loop autoplay />
-              </div>
-              <div className="ml-4">
-                <h3 className="text-[14px] font-semibold">Upcoming Sunrise</h3>
-                <p className="text-2xl ml-2">{formatTime(nextSunrise)}</p>
-              </div>
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 ml-2 md:ml-0 gap-4 w-full px-4 md:px-0">
+          <div className="flex items-center justify-between bg-white bg-opacity-10 backdrop-blur-md pr-4 rounded-2xl shadow w-full max-w-[320px] mx-2">
+            <div className="w-[80px] h-[80px] overflow-hidden rounded-2xl shrink-0">
+              <Lottie animationData={sunrise} loop autoplay />
             </div>
-
-            <div className="flex items-center bg-white bg-opacity-10 backdrop-blur-md pr-4 rounded-2xl shadow">
-              <div className="w-[80px] h-[80px] overflow-hidden rounded-2xl">
-              <Lottie
-                animationData={sunset}
-                loop
-                autoplay
-                direction={-1}
-                initialSegment={[0, 180]} />              
-                </div>
-              <div className="ml-4">
-                <h3 className="text-[14px] font-semibold">Upcoming Sunset</h3>
-                <p className="text-2xl ml-2">{formatTime(nextSunset)}</p>
-              </div>
+            <div className="flex-1 text-center">
+              <h3 className="text-[14px] font-semibold">Upcoming Sunrise</h3>
+              <p className="text-2xl">{formatTime(nextSunrise)}</p>
             </div>
           </div>
+
+        
+          <div className="flex items-center justify-between bg-white bg-opacity-10 backdrop-blur-md pr-4 rounded-2xl shadow w-full max-w-[320px] mx-2">
+            <div className="w-[80px] h-[80px] overflow-hidden rounded-2xl shrink-0">
+              <Lottie animationData={sunset} loop autoplay direction={-1} initialSegment={[0, 180]} />
+            </div>
+            <div className="flex-1 text-center">
+              <h3 className="text-[14px] font-semibold">Upcoming Sunset</h3>
+              <p className="text-2xl">{formatTime(nextSunset)}</p>
+            </div>
+          </div>
+        </div>
+        
         )}
       </div>
 
-      <div className="space-y-4 mt-8">
-        <span className="text-xl font-bold">Past 3 Days</span>
-        {past3Days.map((day, i) => (
-          <div key={i} className="bg-white bg-opacity-10 backdrop-blur-md py-2 pl-4 rounded-2xl shadow space-y-3">
-            <p className="text-md font-semibold">{formatDate(day.date)}</p>
-            <div className="flex items-center">
-              <WiThermometer className="text-popyellow mt-1" size={30} />
-              <span className="text-sm">Temp:</span>
-              <span className="text-sm font-semibold ml-3">{day.min}°</span>
-              <div className="flex-1 ml-3 h-2 bg-gradient-to-r from-blue-600 to-red-600 rounded-full max-w-[250px]" />
-              <span className="text-sm ml-3 font-semibold">{day.max}°</span>
-            </div>
-            <div className="grid grid-cols-2 gap-4 text-sm text-white/90">
-              <div className="flex items-center">
-                <WiRaindrop className="text-popyellow mt-1" size={30} />
-                <span>Rain: {day.rain} mm</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <WiStrongWind className="text-popyellow" size={30} />
-                <span>Wind: {day.wind} km/h</span>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="space-y-4 mt-8 ml-4 mr-4 md:mr-0">
+  <span className="text-xl font-bold">Past 3 Days</span>
+  {past3Days.map((day, i) => (
+    <div
+      key={i}
+      className="bg-white bg-opacity-10 backdrop-blur-md py-2 pl-4 pr-4 rounded-2xl shadow space-y-3"
+    >
+      <p className="text-md font-semibold">{formatDate(day.date)}</p>
+      <div className="flex items-center">
+        <WiThermometer className="text-popyellow mt-1" size={30} />
+        <span className="text-sm">Temp:</span>
+        <span className="text-sm font-semibold ml-3">{day.min}°</span>
+        <div className="flex-1 ml-3 h-2 bg-gradient-to-r from-blue-600 to-red-600 rounded-full max-w-[250px]" />
+        <span className="text-sm ml-3 font-semibold">{day.max}°</span>
       </div>
+      <div className="grid grid-cols-2 gap-4 text-sm text-white/90">
+        <div className="flex items-center">
+          <WiRaindrop className="text-popyellow mt-1" size={30} />
+          <span>Rain: {day.rain} mm</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <WiStrongWind className="text-popyellow" size={30} />
+          <span>Wind: {day.wind} km/h</span>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
     </div>
   );
 };

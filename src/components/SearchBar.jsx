@@ -55,18 +55,14 @@ const SearchBar = ({
   const handleSelect = (location) => {
     const { latitude, longitude } = location;
     setSuppressSuggestions(true);
-    setQuery(''); // clear the input completely
+    setQuery('');
     setCoords({ latitude, longitude });
     fetchWeather(latitude, longitude);
     fetchLocationName(latitude, longitude);
     setSuggestions([]);
-  
     setTimeout(() => setSuppressSuggestions(false), 300);
   };
   
-
-  console.log('Suggestions:', suggestions);
-
   return (
 <div className={`relative ${compact ? 'w-full max-w-xs' : 'w-full max-w-3xl min-w-[28rem]'} mr-4`}>
 <div className="flex items-center bg-white bg-opacity-20 backdrop-blur-md text-white rounded-full px-4 py-2 shadow w-full">
@@ -87,7 +83,7 @@ const SearchBar = ({
             <li
               key={`${city.name}-${city.latitude}`}
               className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
-              onClick={() => handleSelect(city)}
+              onMouseDown={()  => handleSelect(city)}
             >
               {city.name}, {city.admin1 ? city.admin1 + ', ' : ''}{city.country}
             </li>
