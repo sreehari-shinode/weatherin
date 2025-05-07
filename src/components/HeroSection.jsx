@@ -186,16 +186,16 @@ const HeroSection = ({ current, locationInfo, pastData, weather }) => {
 
         </div>
         {nextSunrise && nextSunset && (
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 ml-2 md:ml-0 gap-4 w-full px-4 md:px-0">
-          <div className="flex items-center justify-between bg-white bg-opacity-10 backdrop-blur-md pr-4 rounded-2xl shadow w-full max-w-[320px] mx-2">
-            <div className="w-[80px] h-[80px] overflow-hidden rounded-2xl shrink-0">
-              <Lottie animationData={sunrise} loop autoplay />
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-4 md:px-0 justify-items-center md:justify-items-start">
+            <div className ="flex items-center justify-between bg-white bg-opacity-10 backdrop-blur-md pr-4 rounded-2xl shadow w-full max-w-[320px] mx-2">
+              <div className="w-[80px] h-[80px] overflow-hidden rounded-2xl shrink-0">
+                <Lottie animationData={sunrise} loop autoplay />
+              </div>
+              <div className="flex-1 text-center">
+                <h3 className="text-[14px] font-semibold">Upcoming Sunrise</h3>
+                <p className="text-2xl">{formatTime(nextSunrise)}</p>
+              </div>
             </div>
-            <div className="flex-1 text-center">
-              <h3 className="text-[14px] font-semibold">Upcoming Sunrise</h3>
-              <p className="text-2xl">{formatTime(nextSunrise)}</p>
-            </div>
-          </div>
 
         
           <div className="flex items-center justify-between bg-white bg-opacity-10 backdrop-blur-md pr-4 rounded-2xl shadow w-full max-w-[320px] mx-2">
@@ -208,7 +208,7 @@ const HeroSection = ({ current, locationInfo, pastData, weather }) => {
             </div>
           </div>
         </div>
-        
+
         )}
       </div>
 
